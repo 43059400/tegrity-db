@@ -40,9 +40,9 @@ app.get('/api/discord/callback', async (req, res) => {
   params.append('redirect_uri', REDIRECT_URI)
   params.append('Content-Type', 'application/x-www-form-urlencoded')
 
-  axios.post(`httpss://discordapp.com/api/oauth2/token`, params)
+  axios.post(`https://discordapp.com/api/oauth2/token`, params)
     .then(token => {
-      axios.get('httpss://discordapp.com/api/users/@me', {
+      axios.get('https://discordapp.com/api/users/@me', {
           headers: {
             'Authorization': `Bearer ${token.data.access_token}`
           }
@@ -54,7 +54,7 @@ app.get('/api/discord/callback', async (req, res) => {
           })
           res.status(201)
             .cookie('id', user.id)
-            .redirect(301, 'httpss://www.tegritygaming.com/item-search')
+            .redirect(301, 'https://www.tegritygaming.com/item-search')
         })
     })
 })
