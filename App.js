@@ -1,14 +1,14 @@
 const db = require('./helpers/db')
 const fs = require('fs')
 
-const privateKey  = fs.readFileSync('./tegritygaming.key', 'utf8')
-const certificate = fs.readFileSync('./tegritygaming.crt', 'utf8')
-const credentials = {key: privateKey, cert: certificate}
+//const privateKey  = fs.readFileSync('./tegritygaming.key', 'utf8')
+//const certificate = fs.readFileSync('./tegritygaming.crt', 'utf8')
+//const credentials = {key: privateKey, cert: certificate}
 
 const app = require('express')()
-const https = require('https').createServer(credentials, app)
+const http = require('http').createServer(app)
 
-const io = require('socket.io')(https)
+const io = require('socket.io')(http)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
