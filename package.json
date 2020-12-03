@@ -15,12 +15,7 @@
   },
   "scripts": {
     "start": "set PORT=8080 && nodemon ./server/app.js",
-    "server": "nodemon ./server/app.js",
-  },
-  "eslintConfig": {
-    "extends": [
-
-    ]
+    "server": "nodemon ./server/app.js"
   },
   "browserslist": {
     "production": [
