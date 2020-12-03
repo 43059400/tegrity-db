@@ -1,22 +1,21 @@
 const db = require('./helpers/db')
 const fs = require('fs')
 
-const privateKey  = fs.readFileSync('./server/tegritygaming.key', 'utf8')
-const certificate = fs.readFileSync('./server/tegritygaming.crt', 'utf8')
+const privateKey  = fs.readFileSync('./tegritygaming.key', 'utf8')
+const certificate = fs.readFileSync('./tegritygaming.crt', 'utf8')
 const credentials = {key: privateKey, cert: certificate}
 
 const app = require('express')()
-const http = require('http').createServer(credentials, app)
+const https = require('https').createServer(credentials, app)
 
-const io = require('socket.io')(http)
+const io = require('socket.io')(https)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
-console.log(app.locals.port )
-const port = process.env.PORT || 8080
+const port = 443
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
-const REDIRECT_URI = 'https://www.tegritygaming.com:8080/api/discord/callback'
+const REDIRECT_URI = 'https://tegrity.herokuapp.com/api/discord/callback'
 
 let connected_users = []
 
@@ -41,9 +40,9 @@ app.get('/api/discord/callback', async (req, res) => {
   params.append('redirect_uri', REDIRECT_URI)
   params.append('Content-Type', 'application/x-www-form-urlencoded')
 
-  axios.post(`https://discordapp.com/api/oauth2/token`, params)
+  axios.post(`httpss://discordapp.com/api/oauth2/token`, params)
     .then(token => {
-      axios.get('https://discordapp.com/api/users/@me', {
+      axios.get('httpss://discordapp.com/api/users/@me', {
           headers: {
             'Authorization': `Bearer ${token.data.access_token}`
           }
@@ -55,7 +54,7 @@ app.get('/api/discord/callback', async (req, res) => {
           })
           res.status(201)
             .cookie('id', user.id)
-            .redirect(301, 'https://www.tegritygaming.com/item-search')
+            .redirect(301, 'httpss://www.tegritygaming.com/item-search')
         })
     })
 })
@@ -184,6 +183,6 @@ const getApiAndEmit = socket => {
   socket.emit('FromAPI', response)
 }
 
-http.listen(port, () => {
+https.listen(port, () => {
   console.log(`listening on *:${port}`)
 })

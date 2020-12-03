@@ -14,8 +14,7 @@
     "nodemon": "^2.0.6"
   },
   "scripts": {
-    "start": "set PORT=8080 && nodemon ./server/app.js",
-    "server": "nodemon ./server/app.js"
+    "start": "nodemon ./app.js"
   },
   "browserslist": {
     "production": [
