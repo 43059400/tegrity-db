@@ -6,7 +6,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "fs": "0.0.1-security",
-    "http": "^1.0.0",
+    "https": "^1.0.0",
     "mysql": "^2.18.1",
     "socket.io": "^3.0.1",
     "axios": "^0.21.0",
