@@ -18,7 +18,7 @@ const io = require('socket.io')(https)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
-const port = process.env.PORT || 80
+const port = process.env.PORT || 443
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
 const REDIRECT_URI = 'https://tegritygaming.herokuapp.com/api/discord/callback'
