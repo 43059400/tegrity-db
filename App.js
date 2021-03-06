@@ -9,7 +9,7 @@ const cors = require('cors')
 //const credentials = {key, cert, ca}
 
 const app = require('express')()
-const http = require('http').createServer()
+const http = require('http').createServer(app)
 //const options={
  //cors:true
  //origins:["localhost", 'tegritygaming.com'],
