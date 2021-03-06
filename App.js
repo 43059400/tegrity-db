@@ -1,27 +1,35 @@
 const db = require('./helpers/db')
 const fs = require('fs')
+const cors = require('cors')
 
-//const privateKey  = fs.readFileSync('./tegritygaming.key', 'utf8')
-//const certificate = fs.readFileSync('./tegritygaming.crt', 'utf8')
-//const credentials = {key: privateKey, cert: certificate}
+const cert = fs.readFileSync('./tegritydb_com.crt', 'utf8')
+const ca = fs.readFileSync('./tegritydb_com.ca-bundle', 'utf8')
+const key = fs.readFileSync('./tegritydb.key', 'utf8')
+
+const credentials = {key, cert, ca}
 
 const app = require('express')()
-const http = require('http').createServer(app)
-
-const io = require('socket.io')(http)
+const https = require('https').createServer(credentials, app)
+const options={
+ cors:true,
+ origins:["localhost", 'tegritygaming.com'],
+}
+const io = require('socket.io')(https, options)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 443
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
-const REDIRECT_URI = 'https://tegrity.herokuapp.com/api/discord/callback'
+const REDIRECT_URI = 'https://tegritygaming.herokuapp.com/api/discord/callback'
 
 let connected_users = []
 
 let interval
 
-app.use(cookieParser());
+app.use(cookieParser())
+app.use(cors())
+
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
@@ -48,15 +56,17 @@ app.get('/api/discord/callback', async (req, res) => {
           }
         })
         .then(userData => {
-          let user = userData.data
-          db.addUser(user, () => {
-            updateUserList()
+            let user = userData.data
+            db.addUser(user, () => {
+              updateUserList()
+            })
+
+            console.log('cookie id: ',user.id)
+res.cookie('id',  user.id)
+res.redirect('https://www.tegritygaming.com?id=' + encodeURIComponent(user.id))
+
           })
-          res.status(201)
-            .cookie('id', user.id)
-            .redirect(301, 'https://www.tegritygaming.com/item-search')
-        })
-    })
+    	})
 })
 
 io.on('connection', (socket) => {
@@ -134,6 +144,28 @@ io.on('connection', (socket) => {
     })
   })
 
+  socket.on('get_user_alias_list', (user) => {
+    db.getUserAliasList(user, (alias_list) => {
+      socket.emit('update_alias_list', alias_list)
+    })
+  })
+
+  socket.on('delete_user_alias', (user, alias) => {
+    db.deleteAlias(user, alias, () => {
+      db.getUserAliasList(user, (alias_list) => {
+        socket.emit('update_alias_list', alias_list)
+      })
+    })
+  })
+
+  socket.on('insert_user_alias', (user, alias) => {
+    db.insertAlias(user, alias, () => {
+      db.getUserAliasList(user, (alias_list) => {
+        socket.emit('update_alias_list', alias_list)
+      })
+    })
+  })
+
   socket.on('get_audit_trail', () => {
     db.getUsersAuditTrail((audit_trail) => {
         socket.emit('update_audit_trail', audit_trail)
@@ -183,6 +215,6 @@ const getApiAndEmit = socket => {
   socket.emit('FromAPI', response)
 }
 
-http.listen(port, () => {
+https.listen(port, () => {
   console.log(`listening on *:${port}`)
 })

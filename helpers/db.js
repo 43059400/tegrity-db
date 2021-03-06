@@ -12,6 +12,7 @@ module.exports = {
     addUser: (user, cb) => {
         pool.getConnection((error, connection) => {
             connection.query(`SELECT * FROM users WHERE id=${user.id}`, (error, result) => {
+		console.log(result)
 
                 if (error) {
                     console.log(error)
@@ -36,6 +37,18 @@ module.exports = {
                     cb(user)
                 } else {
                     cb(result[0])
+                }
+                connection.release()
+            })
+        })
+    },
+    getUserAliasList: (user, cb) => {
+        pool.getConnection((error, connection) => {
+            connection.query(`SELECT * FROM alias WHERE user_id='${user || user.id}'`, (error, result) => {
+                if (result.length === undefined) {
+                    cb([])
+                } else {
+                    cb(JSON.parse(JSON.stringify(result)))
                 }
                 connection.release()
             })
