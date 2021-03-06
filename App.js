@@ -32,7 +32,7 @@ app.use(cors())
 
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
+  res.send('You have activated Skynet!')
 })
 
 app.get('/api/discord/callback', async (req, res) => {

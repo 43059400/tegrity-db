@@ -180,6 +180,14 @@ module.exports = {
         })
     },
 
+    insertAlias: (user, alias, cb) => {
+
+    },
+
+    deleteAlias: (user, alias, cb) => {
+
+    },
+
     insertWish: (user, item, cb) => {
         pool.getConnection((error, connection) => { 
             let query = `SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id WHERE user_id='${user.id}' AND zone_id='${item.zone_id}'`
