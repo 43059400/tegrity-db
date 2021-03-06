@@ -14,7 +14,7 @@ const http = require('http').createServer()
  //cors:true
  //origins:["localhost", 'tegritygaming.com'],
 //}
-const io = require('socket.io')(http, options)
+const io = require('socket.io')(http)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
