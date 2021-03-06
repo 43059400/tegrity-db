@@ -2,23 +2,23 @@ const db = require('./helpers/db')
 const fs = require('fs')
 const cors = require('cors')
 
-const cert = fs.readFileSync('./tegritydb_com.crt', 'utf8')
-const ca = fs.readFileSync('./tegritydb_com.ca-bundle', 'utf8')
-const key = fs.readFileSync('./tegritydb.key', 'utf8')
+//const cert = fs.readFileSync('./tegritydb_com.crt', 'utf8')
+//const ca = fs.readFileSync('./tegritydb_com.ca-bundle', 'utf8')
+//const key = fs.readFileSync('./tegritydb.key', 'utf8')
 
-const credentials = {key, cert, ca}
+//const credentials = {key, cert, ca}
 
 const app = require('express')()
-const https = require('https').createServer(credentials, app)
-const options={
- cors:true,
- origins:["localhost", 'tegritygaming.com'],
-}
-const io = require('socket.io')(https, options)
+const http = require('http').createServer()
+//const options={
+ //cors:true
+ //origins:["localhost", 'tegritygaming.com'],
+//}
+const io = require('socket.io')(http, options)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
-const port = process.env.PORT || 443
+const port = process.env.PORT || 80
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
 const REDIRECT_URI = 'https://tegritygaming.herokuapp.com/api/discord/callback'
