@@ -9,16 +9,16 @@ const cors = require('cors')
 //const credentials = {key, cert, ca}
 
 const app = require('express')()
-const https = require('https').createServer()
+const http = require('http').createServer()
 //const options={
  //cors:true
  //origins:["localhost", 'tegritygaming.com'],
 //}
-const io = require('socket.io')(https)
+const io = require('socket.io')(http)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
-const port = process.env.PORT || 443
+const port = process.env.PORT || 80
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
 const REDIRECT_URI = 'https://tegritygaming.herokuapp.com/api/discord/callback'
@@ -215,6 +215,6 @@ const getApiAndEmit = socket => {
   socket.emit('FromAPI', response)
 }
 
-https.listen(port, () => {
+http.listen(port, () => {
   console.log(`listening on *:${port}`)
 })
