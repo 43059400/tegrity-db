@@ -9,12 +9,12 @@ const cors = require('cors')
 //const credentials = {key, cert, ca}
 
 const app = require('express')()
-const http = require('http').createServer()
+const https = require('https').createServer()
 //const options={
  //cors:true
  //origins:["localhost", 'tegritygaming.com'],
 //}
-const io = require('socket.io')(http)
+const io = require('socket.io')(https)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
@@ -215,6 +215,6 @@ const getApiAndEmit = socket => {
   socket.emit('FromAPI', response)
 }
 
-http.listen(port, () => {
+https.listen(port, () => {
   console.log(`listening on *:${port}`)
 })
