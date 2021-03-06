@@ -215,6 +215,6 @@ const getApiAndEmit = socket => {
   socket.emit('FromAPI', response)
 }
 
-https.listen(port, () => {
+http.listen(port, () => {
   console.log(`listening on *:${port}`)
 })
