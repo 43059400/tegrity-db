@@ -115,9 +115,9 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('delete_wish', (user, item) => {
-    db.deleteWish(user, item, () => {
-      db.upatePriorty(user, item, (wishes) => {
+  socket.on('delete_wish', (user, item, alias,) => {
+    db.deleteWish(user, item, alias, () => {
+      db.upatePriorty(user, item, alias, (wishes) => {
         db.getWishList(user, (wishes) => {
           socket.emit('update_wishes', wishes)
         })
@@ -127,9 +127,9 @@ io.on('connection', (socket) => {
     })
   })
   
-  socket.on('insert_wish', (user, item) => {
-    db.insertWish(user, item, () => {
-      db.upatePriorty(user, item, () => {
+  socket.on('insert_wish', (user, item, alias) => {
+    db.insertWish(user, item, alias, () => {
+      db.upatePriorty(user, item, alias, () => {
         db.getWishList(user, (wishes) => {
           socket.emit('update_wishes', wishes)
         })
