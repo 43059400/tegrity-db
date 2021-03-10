@@ -297,7 +297,7 @@ module.exports = {
     },
     getWishList: (user, cb) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT items.name as 'item_name', user.id as 'user_id', alias.id as 'alias_id', items.id as 'item_id', items.img_uri,items.level, zones.name as 'zone_name', npcs.name as 'npc_name', npcs.id as 'npc_id', items.slot as 'item_slot', items.type as 'item_type', items.img_name as 'item_image_name', zones.id as 'zone_id', wish_list_items.priority as 'priority' FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN zones on zones.id = items.zone_id INNER JOIN users on wish_list_items.user_id = users.id INNER JOIN npcs on npcs.id = items.npc_id WHERE users.id = ${user.id}`, (error, result) => {
+            connection.query(`SELECT items.name as 'item_name', wish_list_items.user_id as 'user_id', wish_list_items.alias_id as 'alias_id', items.id as 'item_id', items.img_uri,items.level, zones.name as 'zone_name', npcs.name as 'npc_name', npcs.id as 'npc_id', items.slot as 'item_slot', items.type as 'item_type', items.img_name as 'item_image_name', zones.id as 'zone_id', wish_list_items.priority as 'priority' FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN zones on zones.id = items.zone_id INNER JOIN users on wish_list_items.user_id = users.id INNER JOIN npcs on npcs.id = items.npc_id WHERE users.id = ${user.id}`, (error, result) => {
                 if (error) {
                     console.log(error)
                     cb([])
