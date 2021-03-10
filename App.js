@@ -2,7 +2,12 @@ const db = require('./helpers/db')
 const cors = require('cors')
 
 const app = require('express')()
-const https = require('https').createServer(app)
+const fs = require('fs')
+const https = require('https').createServer({
+  key: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/fullchain.pem')
+}, app)
 const io = require('socket.io')(https)
 
 const axios = require('axios')
