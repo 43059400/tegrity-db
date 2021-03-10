@@ -39,13 +39,13 @@ module.exports = {
                     console.log(error)
                 }
 
-                if (result.length === undefined) {
-                    connection.query(`INSERT INTO alias (user_id, name) VALUES ('${user.id}', '${alias.name}')`, (error, result) => {
-                        console.log('Added alias: ', alias.name)
-                        error ? console.log(error) : console.log(`Created new alias name ${user.username}:${alias.name}`)
-                        cb()
-                    })
-                }
+               // if (result.length === undefined) {
+                 //   connection.query(`INSERT INTO alias (user_id, name) VALUES ('${user.id}', '${alias.name}')`, (error, result) => {
+                   //     console.log('Added alias: ', alias.name)
+                     //   error ? console.log(error) : console.log(`Created new alias name ${user.username}:${alias.name}`)
+                       // cb()
+                    //})
+                //}
                 connection.release()
             })
         })
