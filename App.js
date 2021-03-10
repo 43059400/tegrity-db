@@ -33,7 +33,7 @@ const axios = require('axios')
 const port = process.env.PORT || 443
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
-const REDIRECT_URI = 'https://www.tegritydatabase.com/api/discord/callback'
+const REDIRECT_URI = 'https://tegritydatabase.com/api/discord/callback'
 
 let connected_users = []
 
