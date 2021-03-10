@@ -2,6 +2,12 @@ const db = require('./helpers/db')
 const cors = require('cors')
 
 const app = require('express')()
+app.use(cookieParser())
+let corsOptions = {
+  origin: 'https://www.tegritygaming.com/',
+  optionsSuccessStatus: 200 // For legacy browser support
+}
+app.use(cors(corsOptions))
 const fs = require('fs')
 const https = require('https').createServer({
   key: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/privkey.pem'),
@@ -20,13 +26,6 @@ const REDIRECT_URI = 'https://143.198.58.12/api/discord/callback'
 let connected_users = []
 
 let interval
-
-app.use(cookieParser())
-let corsOptions = {
-  origin: 'https://www.tegritygaming.com/',
-  optionsSuccessStatus: 200 // For legacy browser support
-}
-app.use(cors(corsOptions))
 
 app.get('/', (req, res) => {
   res.send('You have activated Skynet!')
