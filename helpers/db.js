@@ -60,7 +60,7 @@ module.exports = {
                     result.push({id: user.id, name: user.username})
                     cb(result)
                 }
-                connection.release()
+                conn.release()
             })
         })
 
