@@ -1,5 +1,6 @@
 const db = require('./helpers/db')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 const app = require('express')()
 app.use(cookieParser())
@@ -17,7 +18,6 @@ const https = require('https').createServer({
 const io = require('socket.io')(https)
 
 const axios = require('axios')
-const cookieParser = require('cookie-parser')
 const port = process.env.PORT || 443
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
