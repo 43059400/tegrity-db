@@ -40,7 +40,7 @@ module.exports = {
                 }
                 else {
                     if (result.length === 0) {
-                        connection.query(`INSERT INTO alias (user_id, name) VALUES ('${user.id}', '${alias.name}')`, (error, result) => {
+                        connection.query(`INSERT INTO alias (user_id, name) VALUES ('${user.id}', '${alias}')`, (error, result) => {
                             console.log('Added alias: ', alias.name)
                             error ? console.log(error) : console.log(`Created new alias name ${user.username}:${alias}`)
                             cb()
