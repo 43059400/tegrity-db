@@ -32,7 +32,7 @@ module.exports = {
 
     addAlias: (user, alias, cb) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM alias WHERE name=${alias}`, (error, result) => {
+            connection.query(`SELECT * FROM alias WHERE name='${alias}'`, (error, result) => {
 		        console.log(result)
 
                 if (error) {
