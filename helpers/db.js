@@ -145,9 +145,9 @@ module.exports = {
         })
     },
 
-    upatePriorty: (user, item, cb, pos) => {
+    upatePriorty: (user, item, alias, cb, pos) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN users on users.id = wish_list_items.user_id WHERE users.id = '${user.id}' AND zone_id = '${item.zone_id}'`, (error, result) => {
+            connection.query(`SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN users on users.id = wish_list_items.user_id WHERE users.id = '${user.id}' users.id = '${alias.id}' AND zone_id = '${item.zone_id}'`, (error, result) => {
                 result = result || []
                 let newPriorityList = []
                 let check_pos = pos || 20
@@ -171,8 +171,8 @@ module.exports = {
                     check_pos = result.length + 1
                 }
 
-                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${item.id || item.item_id}', '${JSON.stringify(item)}', now())`, (error, result) => {
-                    error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${item.item_id || item.id}`)
+                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id item_id, details, time_stamp) VALUES ('3', '${user.id}', '${alias.id}', '${item.id || item.item_id}', '${JSON.stringify(item)}', now())`, (error, result) => {
+                    error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${item.item_id || item.id} ${alias.id}`)
                 })
 
                 result.forEach((element) => {
@@ -198,7 +198,7 @@ module.exports = {
                 }
 
                 newPriorityList.forEach((element) => {
-                    connection.query(`UPDATE wish_list_items SET priority='${element.priority}', time_stamp=Now() WHERE user_id='${user.id}' AND item_id='${String(element.item_id)}'`, (error, result) => {
+                    connection.query(`UPDATE wish_list_items SET priority='${element.priority}', time_stamp=Now() WHERE user_id='${user.id}' AND alias_id='${alias.id}' AND item_id='${String(element.item_id)}'`, (error, result) => {
                         if (error) 
                         { console.log(error) }
                     })
