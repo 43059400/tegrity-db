@@ -30,6 +30,42 @@ module.exports = {
         })
     },
 
+    addAlias: (user, alias, cb) => {
+        pool.getConnection((error, connection) => {
+            connection.query(`SELECT * FROM alias WHERE name=${alias.name}`, (error, result) => {
+		        console.log(result)
+
+                if (error) {
+                    console.log(error)
+                }
+
+                if (result.length === 0) {
+                    connection.query(`INSERT INTO alias (user_id, name) VALUES ('${user.id}', '${alias.name}')`, (error, result) => {
+                        console.log('Added alias: ', alias.name)
+                        error ? console.log(error) : console.log(`Created new alias name ${user.username}:${alias.name}`)
+                        cb()
+                    })
+                }
+                connection.release()
+            })
+        })
+    },
+
+    getAllAlias: (user, cb) => {
+        pool.getConnection((err, conn) => {
+            conn.query(`SELECT * FROM alias WHERE user_id='${user.id}'`, (err, result) => {
+                if (result.length === 0) {
+                    cb([{id: user.id, name: user.username}])
+                } else {
+                    result.push({id: user.id, name: user.username})
+                    cb(result)
+                }
+                connection.release()
+            })
+        })
+
+    },
+
     getUserData: (user, cb) => {
         pool.getConnection((error, connection) => {
             connection.query(`SELECT * FROM users WHERE id='${user}'`, (error, result) => {

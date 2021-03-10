@@ -95,6 +95,20 @@ io.on('connection', (socket) => {
     })
   })
 
+  socket.on('getAllAlias', (user) => {
+    db.getAllAlias(user, (aliasData) => {
+      socket.emit('alias', aliasData)
+    })
+  })
+
+  socket.on('addAlias', (user, alias) => {
+    db.addAlias(user, alias, () => {
+      db.getAllAlias(user, (aliasData) => {
+        socket.emit('alias', aliasData)
+      })
+    })
+  })
+
   socket.on('getItems', (user) => {
     db.getItems(user, (items) => {
       socket.emit('items', items)
