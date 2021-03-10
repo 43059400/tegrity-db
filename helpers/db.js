@@ -32,20 +32,20 @@ module.exports = {
 
     addAlias: (user, alias, cb) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM alias WHERE name=${alias.name}`, (error, result) => {
+            connection.query(`SELECT * FROM alias WHERE name=${alias}`, (error, result) => {
 		        console.log(result)
 
                 if (error) {
                     console.log(error)
                 }
 
-               // if (result.length === undefined) {
-                 //   connection.query(`INSERT INTO alias (user_id, name) VALUES ('${user.id}', '${alias.name}')`, (error, result) => {
-                   //     console.log('Added alias: ', alias.name)
-                     //   error ? console.log(error) : console.log(`Created new alias name ${user.username}:${alias.name}`)
-                       // cb()
-                    //})
-                //}
+                if (result.length === 0) {
+                    connection.query(`INSERT INTO alias (user_id, name) VALUES ('${user.id}', '${alias.name}')`, (error, result) => {
+                        console.log('Added alias: ', alias.name)
+                        error ? console.log(error) : console.log(`Created new alias name ${user.username}:${alias.name}`)
+                        cb()
+                    })
+                }
                 connection.release()
             })
         })
