@@ -1,30 +1,17 @@
 const db = require('./helpers/db')
 const cookieParser = require('cookie-parser')
-
+let cors = require('cors')
 const app = require('express')()
-app.use(function(req, res, next) {  
-  res.header('Access-Control-Allow-Origin', 'https://www.tegritygaming.com');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header(
-    'Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, X-Api-Key'
-  );
-  res.header('Access-Control-Allow-Credentials', 'true');
-  if ('OPTIONS' === req.method) {
-    res.sendStatus(200);
-  }
-  else {
-    next();
-  }
-})
-app.use(cookieParser())
 const fs = require('fs')
+
 const https = require('https').createServer({
   key: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/cert.pem'),
   ca: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/fullchain.pem')
 }, app)
+
 const io = require('socket.io')(https, { cors: {
-  origin: "https://www.tegritygaming.com",
+  origin: ["https://www.tegritygaming.com", "https://localhost"],
   methods: ["GET", "POST"]
   }
 })
@@ -36,8 +23,10 @@ const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
 const REDIRECT_URI = 'https://tegritydatabase.com/api/discord/callback'
 
 let connected_users = []
-
 let interval
+
+app.use(cors())
+app.use(cookieParser())
 
 app.get('/', (req, res) => {
   res.send('You have activated Skynet!')
