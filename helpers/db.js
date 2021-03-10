@@ -55,9 +55,9 @@ module.exports = {
         pool.getConnection((err, conn) => {
             conn.query(`SELECT * FROM alias WHERE user_id='${user.id}'`, (err, result) => {
                 if (result.length === 0) {
-                    cb([{id: user.id, name: user.username}])
+                    cb([{user_id: user.user_id, name: user.username}])
                 } else {
-                    result.push({id: user.id, name: user.username})
+                    result.push({user_id: user.user_id, name: user.username})
                     cb(result)
                 }
                 conn.release()
