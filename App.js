@@ -115,7 +115,7 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('delete_wish', (user, item, alias,) => {
+  socket.on('delete_wish', (user, item, alias) => {
     db.deleteWish(user, item, alias, () => {
       db.upatePriorty(user, item, alias, (wishes) => {
         db.getWishList(user, (wishes) => {
