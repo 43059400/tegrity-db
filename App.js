@@ -23,7 +23,11 @@ const https = require('https').createServer({
   cert: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/cert.pem'),
   ca: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/fullchain.pem')
 }, app)
-const io = require('socket.io')(https)
+const io = require('socket.io')(https, { cors: {
+  origin: "https://www.tegritygaming.com",
+  methods: ["GET", "POST"]
+  }
+})
 
 const axios = require('axios')
 const port = process.env.PORT || 443
