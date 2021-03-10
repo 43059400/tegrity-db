@@ -1,19 +1,8 @@
 const db = require('./helpers/db')
-const fs = require('fs')
 const cors = require('cors')
-
-//const cert = fs.readFileSync('./tegritydb_com.crt', 'utf8')
-//const ca = fs.readFileSync('./tegritydb_com.ca-bundle', 'utf8')
-//const key = fs.readFileSync('./tegritydb.key', 'utf8')
-
-//const credentials = {key, cert, ca}
 
 const app = require('express')()
 const http = require('http').createServer(app)
-//const options={
- //cors:true
- //origins:["localhost", 'tegritygaming.com'],
-//}
 const io = require('socket.io')(http)
 
 const axios = require('axios')
