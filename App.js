@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser')
 const port = process.env.PORT || 80
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
-const REDIRECT_URI = 'https://tegritygaming.herokuapp.com/api/discord/callback'
+const REDIRECT_URI = 'http://143.198.58.12/api/discord/callback'
 
 let connected_users = []
 
@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
       })
     })
   })
-
+  
   socket.on('insert_wish', (user, item) => {
     db.insertWish(user, item, () => {
       db.upatePriorty(user, item, () => {
