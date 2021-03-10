@@ -2,15 +2,15 @@ const db = require('./helpers/db')
 const cors = require('cors')
 
 const app = require('express')()
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
+const https = require('https').createServer(app)
+const io = require('socket.io')(https)
 
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
-const port = process.env.PORT || 80
+const port = process.env.PORT || 443
 const CLIENT_ID = '769370226835193876'
 const CLIENT_SECRET = 'I1nJFdJrIw1P6SAV-ba3TMPqLZE_Yfpl'
-const REDIRECT_URI = 'http://143.198.58.12/api/discord/callback'
+const REDIRECT_URI = 'https://143.198.58.12/api/discord/callback'
 
 let connected_users = []
 
@@ -37,9 +37,9 @@ app.get('/api/discord/callback', async (req, res) => {
   params.append('redirect_uri', REDIRECT_URI)
   params.append('Content-Type', 'application/x-www-form-urlencoded')
 
-  axios.post(`https://discordapp.com/api/oauth2/token`, params)
+  axios.post(`httpss://discordapp.com/api/oauth2/token`, params)
     .then(token => {
-      axios.get('https://discordapp.com/api/users/@me', {
+      axios.get('httpss://discordapp.com/api/users/@me', {
           headers: {
             'Authorization': `Bearer ${token.data.access_token}`
           }
@@ -52,7 +52,7 @@ app.get('/api/discord/callback', async (req, res) => {
 
             console.log('cookie id: ',user.id)
 res.cookie('id',  user.id)
-res.redirect('https://www.tegritygaming.com?id=' + encodeURIComponent(user.id))
+res.redirect('httpss://www.tegritygaming.com?id=' + encodeURIComponent(user.id))
 
           })
     	})
@@ -204,6 +204,6 @@ const getApiAndEmit = socket => {
   socket.emit('FromAPI', response)
 }
 
-http.listen(port, () => {
+https.listen(port, () => {
   console.log(`listening on *:${port}`)
 })
