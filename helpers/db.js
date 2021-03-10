@@ -147,7 +147,7 @@ module.exports = {
 
     upatePriorty: (user, item, alias, cb, pos) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN users on users.id = wish_list_items.user_id WHERE users.id = '${user.id}' users.id = '${alias.user_id}' AND zone_id = '${item.zone_id}'`, (error, result) => {
+            connection.query(`SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN users on users.id = wish_list_items.user_id WHERE users.id = '${user.id}' AND users.id = '${alias.user_id}' AND zone_id = '${item.zone_id}'`, (error, result) => {
                 result = result || []
                 let newPriorityList = []
                 let check_pos = pos || 20
@@ -172,7 +172,7 @@ module.exports = {
                 }
 
                 connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${alias.user_id}', '${item.id || item.item_id}', '${JSON.stringify(item)}', now())`, (error, result) => {
-                    error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${item.item_id || item.id} ${alias.user_id}`)
+                    error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${alias.user_id} ${item.item_id || item.id} `)
                 })
 
                 result.forEach((element) => {
@@ -267,10 +267,10 @@ module.exports = {
                 if(row !== undefined) {
                     query = `DELETE FROM wish_list_items WHERE user_id=${user.id} AND alias_id=${alias.user_id} AND item_id=${item.item_id || item.id}`
                     connection.query(query, (err, result) => {
-                        err ? console.log(err) : console.log(`Removed item ${user.id} ${item.item_id || item.id}:${alias.user_id || ''}`)
-                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, item_id, alias_id, details, time_stamp) VALUES (2, ${user.id}, ${item.id || item.item_id}, ${alias.user_id}, '${JSON.stringify(row)}', NOW())`
+                        err ? console.log(err) : console.log(`Removed item ${user.id} ${alias.user_id } : ${item.item_id || item.id}`)
+                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, item_id, alias_id, details, time_stamp) VALUES (2, ${user.id}, ${alias.user_id}, ${item.id || item.item_id}, '${JSON.stringify(row)}', NOW())`
                         connection.query(query, (err, result) => {
-                            err ? console.log(err) : console.log(`Row inserted into wish_list_items_tracking ${user.id} ${item.item_id || item.id} ${alias.user_id}`)
+                            err ? console.log(err) : console.log(`Row inserted into wish_list_items_tracking ${user.id} ${alias.user_id} ${item.item_id || item.id} `)
                         })
                         query = `SELECT wish_list_items.priority as 'priority', items.name as 'item_name', items.id as 'item_id', items.img_uri,items.level, zones.name as 'zone_name', npcs.name as 'npc_name', npcs.id as 'npc_id', items.slot as 'item_slot', items.type as 'item_type', items.img_name as 'item_image_name', zones.id as 'zone_id' FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN zones on zones.id = items.zone_id INNER JOIN users on wish_list_items.user_id = users.id INNER JOIN npcs on npcs.id = items.npc_id WHERE users.id = ${user.id}`
                         connection.query(query, (err, rows) => {
