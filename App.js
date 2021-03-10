@@ -1,14 +1,22 @@
 const db = require('./helpers/db')
-const cors = require('cors')
 const cookieParser = require('cookie-parser')
 
 const app = require('express')()
+app.use(function(req, res, next) {  
+  res.header('Access-Control-Allow-Origin', 'https://www.tegritygaming.com');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, X-Api-Key'
+  );
+  res.header('Access-Control-Allow-Credentials', 'true');
+  if ('OPTIONS' === req.method) {
+    res.sendStatus(200);
+  }
+  else {
+    next();
+  }
+})
 app.use(cookieParser())
-let corsOptions = {
-  origin: 'https://www.tegritygaming.com/',
-  optionsSuccessStatus: 200 // For legacy browser support
-}
-app.use(cors(corsOptions))
 const fs = require('fs')
 const https = require('https').createServer({
   key: fs.readFileSync('/etc/letsencrypt/live/tegritydatabase.com/privkey.pem'),
