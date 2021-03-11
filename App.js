@@ -121,7 +121,7 @@ io.on('connection', (socket) => {
         db.getWishList(user, (wishes) => {
           socket.emit('update_wishes', wishes)
         })
-        updateUsersAuditTrail()
+       // updateUsersAuditTrail()
         updateUsersReserves()
       })
     })
@@ -133,7 +133,7 @@ io.on('connection', (socket) => {
         db.getWishList(user, (wishes) => {
           socket.emit('update_wishes', wishes)
         })
-        updateUsersAuditTrail()
+      //  updateUsersAuditTrail()
         updateUsersReserves()
       })
     })
@@ -177,11 +177,11 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('get_audit_trail', () => {
-    db.getUsersAuditTrail((audit_trail) => {
-        socket.emit('update_audit_trail', audit_trail)
-    })
-  })
+  //socket.on('get_audit_trail', () => {
+  //  db.getUsersAuditTrail((audit_trail) => {
+  //      socket.emit('update_audit_trail', audit_trail)
+ //   })
+ // })
 
   socket.on('get_user_list', () => {
     db.getUserList((users) => {
@@ -196,13 +196,13 @@ io.on('connection', (socket) => {
   })
 })
 
-const updateUsersAuditTrail = () => {
-  db.getUsersAuditTrail((audit_trail) => {
-    connected_users.forEach((user) => {
-      user.socket.emit('update_audit_trail', JSON.parse(JSON.stringify(audit_trail)))
-    })
-  })
-}
+//const updateUsersAuditTrail = () => {
+ // db.getUsersAuditTrail((audit_trail) => {
+ //   connected_users.forEach((user) => {
+  //    user.socket.emit('update_audit_trail', JSON.parse(JSON.stringify(audit_trail)))
+   // })
+  //})
+//}
 
 const updateUsersReserves = () => {
   db.getUsersReserves((reserves_data) => {
