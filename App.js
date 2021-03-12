@@ -95,16 +95,13 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('getAllAlias', (user) => {
-    db.getAllAlias(user, (aliasData) => {
-      socket.emit('alias', aliasData)
-    })
-  })
-
   socket.on('addAlias', (user, alias) => {
     db.addAlias(user, alias, () => {
-      db.getAllAlias(user, (aliasData) => {
+      db.getUserAliasList(user, (aliasData) => {
         socket.emit('alias', aliasData)
+        db.getAllAlias((alias_data) => {
+          socket.emit('update_all_alias', alias_data)
+        })
       })
     })
   })
