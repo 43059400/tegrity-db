@@ -105,7 +105,7 @@ module.exports = {
 
     getAllAlias: (cb) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT id as 'alias_id', user_id, name from alias`, (error, result) => {
+            connection.query(`SELECT id as 'alias_id', name FROM alias UNION SELECT id as 'alias_id', username as 'name' FROM users`, (error, result) => {
                 if(result.length === undefined) {
                     cb([])
                 } else {
