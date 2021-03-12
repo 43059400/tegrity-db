@@ -148,6 +148,7 @@ module.exports = {
     upatePriorty: (user, item, alias, cb, pos) => {
         pool.getConnection((error, connection) => {
             connection.query(`SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN users on users.id = wish_list_items.user_id WHERE users.id = '${user.id}' AND users.id = '${alias.user_id}' AND zone_id = '${item.zone_id}'`, (error, result) => {
+                console.log(result)
                 result = result || []
                 let newPriorityList = []
                 let check_pos = pos || 20
