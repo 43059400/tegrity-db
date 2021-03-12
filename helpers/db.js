@@ -52,21 +52,6 @@ module.exports = {
         })
     },
 
-    getAllAlias: (user, cb) => {
-        pool.getConnection((err, conn) => {
-            conn.query(`SELECT * FROM alias WHERE user_id='${user.id}'`, (err, result) => {
-                if (result.length === 0) {
-                    cb([{user_id: user.id, name: user.username}])
-                } else {
-                    result.unshift({user_id: user.id, name: user.username})
-                    cb(result)
-                }
-                conn.release()
-            })
-        })
-
-    },
-
     getUserData: (user, cb) => {
         pool.getConnection((error, connection) => {
             connection.query(`SELECT * FROM users WHERE id='${user}'`, (error, result) => {
