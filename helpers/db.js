@@ -109,8 +109,7 @@ module.exports = {
                 if(result.length === undefined) {
                     cb([])
                 } else {
-                    let stringResult = JSON.stringify(result)
-                    cb(JSON.parse(stringResult))
+                    cb(result)
                 }
                 connection.release()
             })           

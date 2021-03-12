@@ -197,6 +197,7 @@ io.on('connection', (socket) => {
   
   socket.on('get_all_alias', () => {
     db.getAllAlias((alias_data) => {
+      console.log(alias_data)
       socket.emit('update_all_alias', alias_data)
     })
   })
