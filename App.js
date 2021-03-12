@@ -139,8 +139,8 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('update_wish_priority', (user, item, priority) => {
-    db.upatePriorty(user, item, () => {
+  socket.on('update_wish_priority', (user, item, alias, priority) => {
+    db.upatePriorty(user, item, alias, () => {
       db.getWishList(user, (wishes) => {
         socket.emit('update_wishes', wishes)
       })
