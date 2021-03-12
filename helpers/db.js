@@ -157,7 +157,7 @@ module.exports = {
                 })
     
                 result.forEach((element, index) => {
-                    if (element.item_id == String(item.item_id)) {
+                    if (element.item_id == String(item.id)) {
                         findIndex = index
                     }
                 })
@@ -169,8 +169,8 @@ module.exports = {
                     check_pos = result.length + 1
                 }
 
-                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${(alias.alias_id).toString()}', '${item.item_id}', '${JSON.stringify(item)}', now())`, (error, result) => {
-                    error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${alias.alias_id} ${item.item_id} `)
+                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${(alias.alias_id).toString()}', '${item.id}', '${JSON.stringify(item)}', now())`, (error, result) => {
+                    error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${alias.alias_id} ${item.id} `)
                 })
 
                 result.forEach((element) => {
@@ -217,8 +217,6 @@ module.exports = {
 
     insertWish: (user, item, alias, cb) => {
         pool.getConnection((error, connection) => { 
-            console.log(alias)
-            console.log(user)
             let query = `SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id WHERE user_id='${user.id}' AND alias_id=${alias.alias_id} AND zone_id='${item.zone_id}'`
             connection.query(query, (error, result) => {
                 if(result.length >= 5) {
@@ -234,13 +232,13 @@ module.exports = {
                     })
                 } else {
                     if (result !== undefined) {
-                        query = `INSERT INTO wish_list_items(user_id, alias_id, item_id, priority, time_stamp) VALUES (${user.id},${alias.alias_id},${item.item_id}, 1, NOW())`
+                        query = `INSERT INTO wish_list_items(user_id, alias_id, item_id, priority, time_stamp) VALUES (${user.id},${alias.alias_id},${item.id}, 1, NOW())`
                         connection.query(query, (err, result) => {
-                            err ? console.log(err) : console.log(`inserted wish ${user.id} ${alias.alias_id} ${item.item_id}`)
+                            err ? console.log(err) : console.log(`inserted wish ${user.id} ${alias.alias_id} ${item.id}`)
                         })
-                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES (1, ${user.id}, ${(alias.alias_id).toString()}, ${item.item_id}, '${JSON.stringify(item)}', NOW())`
+                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES (1, ${user.id}, ${(alias.alias_id).toString()}, ${item.id}, '${JSON.stringify(item)}', NOW())`
                         connection.query(query, (err, result) => {
-                            err ? console.log(err) : console.log(`inserted wish into tracking ${user.id},${alias.alias_id}, ${item.item_id}`)
+                            err ? console.log(err) : console.log(`inserted wish into tracking ${user.id},${alias.alias_id}, ${item.id}`)
                         })
                     } else {
                         cb([])
@@ -262,15 +260,15 @@ module.exports = {
 
     deleteWish: (user, item, alias, cb) => {
         pool.getConnection((error, connection) => {     
-            let query = `SELECT * FROM wish_list_items WHERE user_id=${user.id} AND alias_id=${alias.alias_id} AND item_id="${item.item_id}"`
+            let query = `SELECT * FROM wish_list_items WHERE user_id=${user.id} AND alias_id=${alias.alias_id} AND item_id="${item.id}"`
             connection.query(query, (err, row) => {
                 if(row !== undefined) {
-                    query = `DELETE FROM wish_list_items WHERE user_id=${user.id} AND alias_id=${alias.alias_id} AND item_id=${item.item_id}`
+                    query = `DELETE FROM wish_list_items WHERE user_id=${user.id} AND alias_id=${alias.alias_id} AND item_id=${item.id}`
                     connection.query(query, (err, result) => {
-                        err ? console.log(err) : console.log(`Removed item ${user.id} ${alias.alias_id } : ${item.item_id}`)
-                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, item_id, alias_id, details, time_stamp) VALUES (2, ${user.id}, ${(alias.alias_id).toString()}, ${item.item_id}, '${JSON.stringify(row)}', NOW())`
+                        err ? console.log(err) : console.log(`Removed item ${user.id} ${alias.alias_id } : ${item.id}`)
+                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, item_id, alias_id, details, time_stamp) VALUES (2, ${user.id}, ${(alias.alias_id).toString()}, ${item.id}, '${JSON.stringify(row)}', NOW())`
                         connection.query(query, (err, result) => {
-                            err ? console.log(err) : console.log(`Row inserted into wish_list_items_tracking ${user.id} ${alias.alias_id} ${item.item_id} `)
+                            err ? console.log(err) : console.log(`Row inserted into wish_list_items_tracking ${user.id} ${alias.alias_id} ${item.id} `)
                         })
                         query = `SELECT wish_list_items.priority as 'priority', items.name as 'item_name', items.id as 'item_id', items.img_uri,items.level, zones.name as 'zone_name', npcs.name as 'npc_name', npcs.id as 'npc_id', items.slot as 'item_slot', items.type as 'item_type', items.img_name as 'item_image_name', zones.id as 'zone_id' FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN zones on zones.id = items.zone_id INNER JOIN users on wish_list_items.user_id = users.id INNER JOIN npcs on npcs.id = items.npc_id WHERE users.id = ${user.id}`
                         connection.query(query, (err, rows) => {
