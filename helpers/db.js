@@ -217,6 +217,8 @@ module.exports = {
 
     insertWish: (user, item, alias, cb) => {
         pool.getConnection((error, connection) => { 
+            console.log(alias)
+            console.log(user)
             let query = `SELECT * FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id WHERE user_id='${user.id}' AND alias_id=${alias.alias_id} AND zone_id='${item.zone_id}'`
             connection.query(query, (error, result) => {
                 if(result.length >= 5) {
