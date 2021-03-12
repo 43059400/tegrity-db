@@ -54,7 +54,7 @@ module.exports = {
 
     getUserData: (user, cb) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM users WHERE id='${user}'`, (error, result) => {
+            connection.query(`SELECT * FROM users WHERE id='${user.id}'`, (error, result) => {
                 if (result.length === 0) {
                     cb(user)
                 } else {
@@ -66,7 +66,7 @@ module.exports = {
     },
     getUserAliasList: (user, cb) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM alias WHERE user_id='${user || user.id}'`, (error, result) => {
+            connection.query(`SELECT * FROM alias WHERE user_id='${user.id}'`, (error, result) => {
                 if (result.length === undefined) {
                     cb([])
                 } else {
