@@ -234,7 +234,7 @@ module.exports = {
                     })
                 } else {
                     if (result !== undefined) {
-                        query = `INSERT INTO wish_list_items(user_id, alias_id, item_id, time_stamp) VALUES (${user.id},${alias.user_id},${item.id}, 1, NOW())`
+                        query = `INSERT INTO wish_list_items(user_id, alias_id, item_id, priority, time_stamp) VALUES (${user.id},${alias.user_id},${item.id}, 1, NOW())`
                         connection.query(query, (err, result) => {
                             err ? console.log(err) : console.log(`inserted wish ${user.id} ${alias.user_id} ${item.id}`)
                         })
