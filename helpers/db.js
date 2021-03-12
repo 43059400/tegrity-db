@@ -169,7 +169,7 @@ module.exports = {
                     check_pos = result.length + 1
                 }
 
-                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${alias.user_id}', '${item.id || item.item_id}', '${JSON.stringify(item)}', now())`, (error, result) => {
+                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${alias.user_id}', '${item.item_id}', '${JSON.stringify(item)}', now())`, (error, result) => {
                     error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${alias.user_id} ${item.item_id || item.id} `)
                 })
 
