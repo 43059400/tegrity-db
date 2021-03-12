@@ -97,8 +97,8 @@ io.on('connection', (socket) => {
 
   socket.on('addAlias', (user, alias) => {
     db.addAlias(user, alias, () => {
-      db.getUserAliasList(user, (aliasData) => {
-        socket.emit('alias', aliasData)
+      db.getUserAliasList(user, (alias_list) => {
+        socket.emit('update_alias_list', alias_list)
       })
     })
   })
