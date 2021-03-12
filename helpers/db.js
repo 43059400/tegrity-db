@@ -197,6 +197,8 @@ module.exports = {
                     newPriorityList.push(item)
                 }
 
+                console.log(newPriorityList)
+
                 newPriorityList.forEach((element) => {
                     connection.query(`UPDATE wish_list_items SET priority='${element.priority}', time_stamp=Now() WHERE user_id='${user.id}' AND alias_id='${alias.user_id}' AND item_id='${String(element.item_id)}'`, (error, result) => {
                         if (error) 
