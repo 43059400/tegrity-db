@@ -196,6 +196,12 @@ io.on('connection', (socket) => {
   })
 })
 
+socket.on('get_all_alias', () => {
+  db.getAllAlias((alias_data) => {
+    socket.emit('update_reserves', alias_data)
+  })
+})
+
 //const updateUsersAuditTrail = () => {
  // db.getUsersAuditTrail((audit_trail) => {
  //   connected_users.forEach((user) => {

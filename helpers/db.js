@@ -118,6 +118,19 @@ module.exports = {
         })
     },
 
+    getAllAlias: (cb) => {
+        pool.getConnection((error, connection) => {
+            connection.query(`SELECT alias.id as 'alias_id', alias.user_id, alias.name FROM users INNER JOIN alias ON alias.user_id = users.id`, (error, result) => {
+                if(result.length === undefined) {
+                    cb([])
+                } else {
+                    cb(result)
+                }
+                connection.release()
+            })           
+        })
+    },
+
     getUserList: (cb) => {
         pool.getConnection((error, connection) => {
             connection.query(`SELECT * FROM users`, (error, result) => {
