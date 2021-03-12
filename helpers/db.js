@@ -64,9 +64,8 @@ module.exports = {
         })
     },
     getUserAliasList: (user, cb) => {
-        console.log('Alias List Called: ', user)
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM alias WHERE user_id='${user.id}'`, (error, result) => {
+            connection.query(`SELECT id, id as 'user_id', username as 'name' FROM users WHERE id='${user.id}' UNION SELECT * FROM alias WHERE user_id='${user.id}'`, (error, result) => {
                 if (result.length === undefined) {
                     cb([])
                 } else {

@@ -99,6 +99,9 @@ io.on('connection', (socket) => {
     db.addAlias(user, alias, () => {
       db.getUserAliasList(user, (alias_list) => {
         socket.emit('update_alias_list', alias_list)
+          db.getAllAlias((alias_data) => {
+            socket.emit('update_all_alias', alias_data)
+          })
       })
     })
   })
@@ -152,6 +155,9 @@ io.on('connection', (socket) => {
   socket.on('get_user_alias_list', (user) => {
     db.getUserAliasList(user, (alias_list) => {
       socket.emit('update_alias_list', alias_list)
+        db.getAllAlias((alias_data) => {
+          socket.emit('update_all_alias', alias_data)
+        })
     })
   })
 
@@ -159,6 +165,9 @@ io.on('connection', (socket) => {
     db.deleteAlias(user, alias, () => {
       db.getUserAliasList(user, (alias_list) => {
         socket.emit('update_alias_list', alias_list)
+          db.getAllAlias((alias_data) => {
+            socket.emit('update_all_alias', alias_data)
+          })
       })
     })
   })
@@ -167,6 +176,9 @@ io.on('connection', (socket) => {
     db.insertAlias(user, alias, () => {
       db.getUserAliasList(user, (alias_list) => {
         socket.emit('update_alias_list', alias_list)
+          db.getAllAlias((alias_data) => {
+            socket.emit('update_all_alias', alias_data)
+          })
       })
     })
   })
