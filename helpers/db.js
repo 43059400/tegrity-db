@@ -169,7 +169,7 @@ module.exports = {
                     check_pos = result.length + 1
                 }
 
-                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${(alias.alias_id).toString()}', '${item.id}', '${JSON.stringify(item)}', now())`, (error, result) => {
+                connection.query(`INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES ('3', '${user.id}', '${alias.alias_id}', '${item.id}', '${JSON.stringify(item)}', now())`, (error, result) => {
                     error ? console.log(error) : console.log(`Create new wish_list_items_tracking ${user.id} ${alias.alias_id} ${item.id} `)
                 })
 
@@ -236,7 +236,7 @@ module.exports = {
                         connection.query(query, (err, result) => {
                             err ? console.log(err) : console.log(`inserted wish ${user.id} ${alias.alias_id} ${item.id}`)
                         })
-                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES (1, ${user.id}, ${(alias.alias_id).toString()}, ${item.id}, '${JSON.stringify(item)}', NOW())`
+                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, alias_id, item_id, details, time_stamp) VALUES (1, ${user.id}, ${alias.alias_id}, ${item.id}, '${JSON.stringify(item)}', NOW())`
                         connection.query(query, (err, result) => {
                             err ? console.log(err) : console.log(`inserted wish into tracking ${user.id},${alias.alias_id}, ${item.id}`)
                         })
@@ -266,7 +266,7 @@ module.exports = {
                     query = `DELETE FROM wish_list_items WHERE user_id=${user.id} AND alias_id=${alias.alias_id} AND item_id=${item.id}`
                     connection.query(query, (err, result) => {
                         err ? console.log(err) : console.log(`Removed item ${user.id} ${alias.alias_id } : ${item.id}`)
-                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, item_id, alias_id, details, time_stamp) VALUES (2, ${user.id}, ${(alias.alias_id).toString()}, ${item.id}, '${JSON.stringify(row)}', NOW())`
+                        query = `INSERT INTO wish_list_items_tracking(action_id, user_id, item_id, alias_id, details, time_stamp) VALUES (2, ${user.id}, ${alias.alias_id}, ${item.id}, '${JSON.stringify(row)}', NOW())`
                         connection.query(query, (err, result) => {
                             err ? console.log(err) : console.log(`Row inserted into wish_list_items_tracking ${user.id} ${alias.alias_id} ${item.id} `)
                         })
