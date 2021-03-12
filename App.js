@@ -144,7 +144,7 @@ io.on('connection', (socket) => {
       db.getWishList(user, (wishes) => {
         socket.emit('update_wishes', wishes)
       })
-      updateUsersAuditTrail()
+      //updateUsersAuditTrail()
       updateUsersReserves()
     }, priority)
   })
