@@ -70,7 +70,7 @@ module.exports = {
                 if (result.length === undefined) {
                     cb([])
                 } else {
-                    cb(JSON.parse(JSON.stringify(result)))
+                    cb(result)
                 }
                 connection.release()
             })
@@ -105,7 +105,7 @@ module.exports = {
 
     getAllAlias: (cb) => {
         pool.getConnection((error, connection) => {
-            connection.query(`SELECT alias.id as 'alias_id', alias.user_id, alias.name FROM users INNER JOIN alias ON alias.user_id = users.id`, (error, result) => {
+            connection.query(`SELECT users.username as 'username', wish_list_items.alias_id as 'alias_id', wish_list_items.priority as 'priority', items.name as 'item_name', items.img_name, items.id as 'item_id', zones.id as 'zone_id', zones.name as 'zone_name' FROM wish_list_items INNER JOIN items on items.id = wish_list_items.item_id INNER JOIN users on users.id = wish_list_items.user_id INNER JOIN zones on zones.id = items.zone_id`, (error, result) => {
                 if(result.length === undefined) {
                     cb([])
                 } else {
