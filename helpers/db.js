@@ -109,6 +109,7 @@ module.exports = {
                 if(result.length === undefined) {
                     cb([])
                 } else {
+                    console.log(result)
                     cb(result)
                 }
                 connection.release()
