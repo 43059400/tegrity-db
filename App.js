@@ -132,10 +132,10 @@ io.on('connection', (socket) => {
         })
       //  updateUsersAuditTrail()
         updateUsersReserves()
-      })
+      }, 1)
     })
   })
-
+  
   socket.on('update_wish_priority', (user, item, alias, priority) => {
     db.upatePriorty(user, item, alias, () => {
       db.getWishList(user, (wishes) => {
