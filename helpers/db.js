@@ -52,16 +52,21 @@ module.exports = {
     },
 
     getUserData: (user, cb) => {
-        pool.getConnection((error, connection) => {
-            connection.query(`SELECT * FROM users WHERE id='${user.id}'`, (error, result) => {
-                if (result.length === 0) {
-                    cb(user)
-                } else {
-                    cb(result[0])
-                }
-                connection.release()
-            })
-        })
+        try {
+            pool.getConnection((error, connection) => {
+                connection.query(`SELECT * FROM users WHERE id='${user.id}'`, (error, result) => {
+                    if (result.length === 0) {
+                        cb(user)
+                    } else {
+                        cb(result[0])
+                    }
+                    connection.release()
+                })
+            })       
+        }
+        catch(err) {
+            console.log('Error getting user data...')
+        }
     },
     getUserAliasList: (user, cb) => {
         pool.getConnection((error, connection) => {
