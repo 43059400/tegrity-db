@@ -141,12 +141,7 @@ module.exports = {
         pool.getConnection((error, connection) => {
             connection.query(`SELECT items.id as 'id', items.name as 'name', items.img_name as 'img_name', items.level, npcs.name as 'npc', items.type, items.slot, items.percentage, npcs.name as 'npc', zones.name as 'zone', npcs.id as 'npcs_id', zones.id as 'zone_id' FROM items INNER JOIN npcs on npcs.id =items.npc_id INNER JOIN zones on zones.id = items.zone_id`, (error, result) => {
                 try {
-                    if (result.length === undefined) {
-                        cb([])
-                    } else {
-                        
-                        cb(result)
-                    }
+                    cb(result)
                 } catch (error) {
                     console.log(error)   
                 }
